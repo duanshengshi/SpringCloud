@@ -1,0 +1,26 @@
+server:
+  port: 8080
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+#spring.cloud.gateway.discovery.locator.enabled为true，表明gateway开启服务注册和发现的功能，
+#并且spring cloud gateway自动根据服务发现为每一个服务创建了一个router，
+#这个router将以服务名开头的请求路径转发到对应的服务。
+#spring.cloud.gateway.discovery.locator.lowerCaseServiceId是将请求路径上的服务名配置为小写（因为服务注册的时候，向注册中心注册时将服务名转成大写的了）
+
+      routes:
+      - id: manage
+        uri: http://localhost:9033
+        predicates:
+        - Path=/**
+  application:
+    name: cloud-gateway
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9034/eureka
+#    enabled: true
